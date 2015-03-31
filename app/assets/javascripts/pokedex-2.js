@@ -7,20 +7,53 @@ Pokedex.RootView.prototype.addToyToList = function (toy) {
 };
 
 Pokedex.RootView.prototype.renderToyDetail = function (toy) {
-  var $toyDiv = $('<div class="detail">');
+  // var $toyDiv = $('<div class="detail">');
+  //
+  // for (var k in toy.attributes) {
+  //   if (k === 'image_url') {
+  //     $toyDiv.append($('<img src="' + toy.escape('image_url') + '">'));
+  //   } else {
+  //     $toyDiv.append($('<p>' + k + ': ' + toy.attributes[k] + '</p>'));
+  //   }
+  // }
+  //
+  // var $select = $('<select class="owner-select-box">');
+  // $select.attr('data-pokemon-id', toy.escape('pokemon_id'));
+  // $select.attr('data-toy-id', toy.escape('id'));
+  //
+  // this.pokes.each(function(pokemon) {
+  //   var $option = $('<option>');
+  //   $option.attr('value', pokemon.get('id'));
+  //   if(toy.escape('pokemon_id') === pokemon.escape('id')) {
+  //     $option.attr('selected', 'selected');
+  //   }
+  //   $option.html(pokemon.get('name'));
+  //   $select.append($option);
+  // });
+  //
+  // $toyDiv.append($select);
+  //
+  // this.$toyDetail.html($toyDiv);
+
+
+  var $toyForm = $('<form class="detail">');
 
   for (var k in toy.attributes) {
     if (k === 'image_url') {
-      $toyDiv.append($('<img src="' + toy.escape('image_url') + '">'));
-    } else {
-      $toyDiv.append($('<p>' + k + ': ' + toy.attributes[k] + '</p>'));
+      $toyForm.append($('<img src="' + toy.escape('image_url') + '">'));
     }
+    var $input = $('<label>');
+    $input.append(k);
+    $input.append('<br>');
+    $input.append('<input name="toy[' + k + ']" value="' + toy.attributes[k] + '">');
+    $toyForm.append($input);
+    $toyForm.append('<br><br>');
   }
 
   var $select = $('<select class="owner-select-box">');
   $select.attr('data-pokemon-id', toy.escape('pokemon_id'));
   $select.attr('data-toy-id', toy.escape('id'));
-  
+
   this.pokes.each(function(pokemon) {
     var $option = $('<option>');
     $option.attr('value', pokemon.get('id'));
@@ -31,9 +64,9 @@ Pokedex.RootView.prototype.renderToyDetail = function (toy) {
     $select.append($option);
   });
 
-  $toyDiv.append($select);
+  $toyForm.append($select);
 
-  this.$toyDetail.html($toyDiv);
+  this.$toyDetail.html($toyForm);
 };
 
 Pokedex.RootView.prototype.selectToyFromList = function (event) {
